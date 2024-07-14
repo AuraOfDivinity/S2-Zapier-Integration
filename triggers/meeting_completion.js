@@ -1,6 +1,6 @@
-const fetchNewObjectives = async (z, bundle) => {
+const fetchNewCompletedMeetings = async (z, bundle) => {
   const response = await z.request({
-    url: `${process.env.APP_BASE_URL}/polling/objective`,
+    url: `${process.env.APP_BASE_URL}/polling/meeting-completion`,
     method: "GET",
     headers: {
       "content-type": "application/json",
@@ -8,31 +8,36 @@ const fetchNewObjectives = async (z, bundle) => {
     },
   });
 
-  const objectives = response.json;
+  const completedMeetings = response.json;
 
-  if (objectives.length === 0) {
-    // Provide a static sample if no new objectives are found
+  if (completedMeetings.length === 0) {
+    // Provide a static sample if no new actions are found
     return [
       {
-        title: "Sample Objective",
-        description: "This is a sample objective",
-        owner: "Asel Peiris",
+        id: "sample_id",
+        title: "Sample Action",
+        description: "This is a sample action",
+        assignee: "sample@example.com",
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
       },
     ];
   }
 
-  // TODO FIX
-  return objectives.map((objective) => ({
-    title: objective.title,
-    description: objective.description,
-    owner: objective.owner,
+  return completedMeetings.map((action) => ({
+    id: action.id,
+    title: action.title,
+    description: action.description,
+    assignee: action.assignee,
+    created_at: action.created_at,
+    updated_at: action.updated_at,
   }));
 };
 
 const subscribeHook = async (z, bundle) => {
   const data = {
     url: bundle.targetUrl, // The URL Zapier provides to receive the webhook notifications
-    trigger_type: "objective",
+    trigger_type: "meeting_completion",
     webhook_url: bundle.targetUrl,
   };
 
@@ -77,33 +82,34 @@ const unsubscribeHook = async (z, bundle) => {
 };
 
 const perform = async (z, bundle) => {
-  const objective = bundle.cleanedRequest; // This will contain the task data sent by your NestJS application
-  return [objective];
+  const meeting = bundle.cleanedRequest;
+  return [meeting];
 };
 
 module.exports = {
-  key: "new_objective",
-  noun: "Objective",
+  key: "new_meeting_completion",
+  noun: "Meeting Completion",
   display: {
-    label: "New Objective",
-    description: "Triggers when a new S2 Objective is created.",
+    label: "Meeting Completion",
+    description:
+      "Triggers when a new S2 Meeting that you have started is completed",
   },
   operation: {
     inputFields: [],
     type: "hook",
     perform,
     performSubscribe: subscribeHook,
-    performList: fetchNewObjectives,
+    performList: fetchNewActions,
     performUnsubscribe: unsubscribeHook,
     sample: {
-      title: "Sample Objective",
-      owner: "Asel Peiris",
-      description: "This is a sample objective",
+      title: "Sample Action",
+      description: "This is a sample action",
+      assignee: "sample@example.com",
     },
     outputFields: [
-      { key: "title", label: "Objective Title" },
-      { key: "description", label: "Objective Description" },
-      { key: "owner", label: "Asel Peiris" },
+      { key: "title", label: "Meeting Title" },
+      { key: "description", label: "Action Description" },
+      { key: "assignee", label: "Action Assignee" },
     ],
   },
 };
