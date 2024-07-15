@@ -14,23 +14,25 @@ const fetchNewCompletedMeetings = async (z, bundle) => {
     // Provide a static sample if no new actions are found
     return [
       {
-        id: "sample_id",
-        title: "Sample Action",
-        description: "This is a sample action",
-        assignee: "sample@example.com",
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
+        owner: "Asel Peiris",
+        title: "Weekly Sync",
+        type: "standard_weekly_sync",
+        participants: "Asel Peiris, Nileshi Harasgama, Jehan Perera",
+        notes: "Sample notes",
+        participantRatings: "Asel Peiris: 3.5, Nileshi Harasgama: 2",
+        date: "2024-06-24",
       },
     ];
   }
 
-  return completedMeetings.map((action) => ({
-    id: action.id,
-    title: action.title,
-    description: action.description,
-    assignee: action.assignee,
-    created_at: action.created_at,
-    updated_at: action.updated_at,
+  return completedMeetings.map((meeting) => ({
+    owner: meeting.owner,
+    title: meeting.title,
+    type: meeting.type,
+    participants: meeting.participants,
+    notes: meeting.notes,
+    participantRatings: meeting.participantRatings,
+    date: meeting.date,
   }));
 };
 
@@ -92,24 +94,32 @@ module.exports = {
   display: {
     label: "Meeting Completion",
     description:
-      "Triggers when a new S2 Meeting that you have started is completed",
+      "Triggers when a new S2 Meeting that you have started is completed.",
   },
   operation: {
     inputFields: [],
     type: "hook",
     perform,
     performSubscribe: subscribeHook,
-    performList: fetchNewActions,
+    performList: fetchNewCompletedMeetings,
     performUnsubscribe: unsubscribeHook,
     sample: {
-      title: "Sample Action",
-      description: "This is a sample action",
-      assignee: "sample@example.com",
+      owner: "Nileshi Harasgama",
+      title: "Weekly Sync",
+      type: "standard_weekly_sync",
+      participants: "Asel Peiris, Nileshi Harasgama, Jehan Perera",
+      notes: "Sample Notes",
+      participantRatings: "Asel Peiris: 3.5, Nileshi Harasgama: 2",
+      date: "2024-06-24",
     },
     outputFields: [
-      { key: "title", label: "Meeting Title" },
-      { key: "description", label: "Action Description" },
-      { key: "assignee", label: "Action Assignee" },
+      { key: "owner", label: "Owner" },
+      { key: "title", label: "Title" },
+      { key: "type", label: "Type" },
+      { key: "participants", label: "Participants" },
+      { key: "notes", label: "Notes" },
+      { key: "participantRatings", label: "Participant Ratings" },
+      { key: "date", label: "Date" },
     ],
   },
 };

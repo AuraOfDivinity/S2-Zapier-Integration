@@ -16,6 +16,11 @@ const fetchNewObjectives = async (z, bundle) => {
       {
         title: "Sample Objective",
         description: "This is a sample objective",
+        keyResults: "Sample Key Result",
+        milestone30Day: "Sample 30 day Milestone",
+        milestone60Day: "Sample 60 day Milestone",
+        dueDate: "2024-06-24",
+        status: "on-track",
         owner: "Asel Peiris",
       },
     ];
@@ -26,6 +31,11 @@ const fetchNewObjectives = async (z, bundle) => {
     title: objective.title,
     description: objective.description,
     owner: objective.owner,
+    keyResults: objective.keyResults,
+    milestone30Day: objective.milestone30Day,
+    milestone60Day: objective.milestone60Day,
+    dueDate: objective.dueDate,
+    status: objective.status,
   }));
 };
 
@@ -97,13 +107,23 @@ module.exports = {
     performUnsubscribe: unsubscribeHook,
     sample: {
       title: "Sample Objective",
-      owner: "Asel Peiris",
       description: "This is a sample objective",
+      keyResults: "Sample Key Result",
+      milestone30Day: "Sample 30 day Milestone",
+      milestone60Day: "Sample 60 day Milestone",
+      dueDate: "2024-06-24",
+      status: "on-track",
+      owner: "Asel Peiris",
     },
     outputFields: [
       { key: "title", label: "Objective Title" },
       { key: "description", label: "Objective Description" },
-      { key: "owner", label: "Asel Peiris" },
+      { key: "keyResults", label: "Key Results" },
+      { key: "milestone30Day", label: "30 Day Milestone" },
+      { key: "milestone60Day", label: "60 Day Milestone" },
+      { key: "status", label: "Status" },
+      { key: "dueDate", label: "Due Date" },
+      { key: "owner", label: "Owner" },
     ],
   },
 };

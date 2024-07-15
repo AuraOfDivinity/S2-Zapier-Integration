@@ -5,6 +5,7 @@ const {
 } = require("./authentication");
 const newActionTrigger = require("./triggers/new_action");
 const newObjectiveTrigger = require("./triggers/new_objective");
+const newMeetingCompletionTrigger = require("./triggers/meeting_completion");
 
 module.exports = {
   // This is just shorthand to reference the installed dependencies you have.
@@ -22,6 +23,7 @@ module.exports = {
   triggers: {
     [newActionTrigger.key]: newActionTrigger,
     [newObjectiveTrigger.key]: newObjectiveTrigger,
+    [newMeetingCompletionTrigger.key]: newMeetingCompletionTrigger,
   },
 
   // If you want your searches to show up, you better include it here!
