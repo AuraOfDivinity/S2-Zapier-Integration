@@ -48,7 +48,7 @@ const getAccessToken = async (z, bundle) => {
 
 const refreshAccessToken = async (z, bundle) => {
   const response = await z.request({
-    url: `${process.env.APP_BASE_URL}/oauth/token`,
+    url: `${process.env.APP_BASE_URL}/oauth/refresh`,
     method: "POST",
     body: {
       client_id: process.env.CLIENT_ID,
