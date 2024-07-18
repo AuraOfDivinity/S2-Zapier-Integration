@@ -55,7 +55,6 @@ const refreshAccessToken = async (z, bundle) => {
       client_secret: process.env.CLIENT_SECRET,
       grant_type: "refresh_token",
       refresh_token: bundle.authData.refresh_token,
-      redirect_uri: bundle.inputData.redirect_uri,
     },
     headers: { "content-type": "application/x-www-form-urlencoded" },
   });
